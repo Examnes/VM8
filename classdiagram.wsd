@@ -1,0 +1,167 @@
+@startuml classdiagram
+
+left to right direction
+class memory
+{
+    data[VM_MEMORY_SIZE] : byte
+    load_from_file(file)
+}
+
+class flags
+{
+    ip_changed : 1 bit
+    sf : 1 bit
+    zf : 1 bit
+    placeholder : 5 bit
+}
+
+class psw
+{
+    ip : address
+    flags : flags
+}
+
+flags --* psw
+psw --* state
+state --* interpretator
+memory --* interpretator
+command --o interpretator
+
+command <--command8
+command <--command16
+command <--command24
+command <--command32
+
+
+class state
+{
+    reg[7] : address
+    sp : address
+    psw : psw
+}
+
+class command8
+{
+    cop : byte
+}
+
+class command16
+{
+    cop : byte
+    R1 : 3 bit
+    R2 : 3 bit
+    R3 : 3 bit
+}
+
+class command32
+{
+    cop : byte
+    R1 : 3 bit
+    R2 : 3 bit
+    R3 : 3 bit
+    address : address
+}
+
+class command24
+{
+    cop : byte
+    b : 1 bit
+    m : 1 bit
+    address : address
+}
+
+class base_command_handler
+{
+    execute(command)
+    memory : memory&
+    state : state&
+    size : int
+}
+
+base_command_handler <-- command
+
+class base_math_handler
+{
+    update_flags(operands, result)
+}
+
+class fadd{}
+class fmul{}
+class fdiv{}
+class fsub{}
+
+class addws{}
+class mulws{}
+class divws{}
+class subws{}
+
+class adds{}
+class muls{}
+class divs{}
+class subs{}
+
+base_math_handler --|> base_command_handler
+fadd --|> base_math_handler
+fmul --|> base_math_handler
+fdiv --|> base_math_handler
+fsub --|> base_math_handler
+
+addws --|> base_math_handler
+mulws --|> base_math_handler
+divws --|> base_math_handler
+subws --|> base_math_handler
+
+adds --|> base_math_handler
+muls --|> base_math_handler
+divs --|> base_math_handler
+subs --|> base_math_handler
+neg --|> base_math_handler
+
+class neg{}
+
+class jumpr{}
+class jumpl{}
+class jumplr{}
+class call{}
+class ret{}
+class cmp{}
+
+class save{}
+class load{}
+
+class mov{}
+
+class in{}
+class out{}
+
+jumpr --|> base_command_handler
+jumpl --|> base_command_handler
+jumplr --|> base_command_handler
+
+
+call--|> base_command_handler
+ret --|> base_command_handler
+cmp --|> base_command_handler
+
+save--|> base_command_handler
+load --|> base_command_handler
+mov --|> base_command_handler
+
+in  --|> base_command_handler
+out --|> base_command_handler
+
+
+
+class interpretator
+{
+    start()
+    load(file)
+    memory : memory&
+    handlers : map<string, base_command_handler&>
+    s : state
+    command : command8,command16,command24,command32
+    load_command()
+}
+
+
+@enduml

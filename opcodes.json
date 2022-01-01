@@ -1,0 +1,147 @@
+{
+    "opcodes": 
+    [
+        {
+            "name": "mov",
+            "cop": 1,
+            "size": 0
+        },
+
+        {
+            "name": "fadd",
+            "cop": 2,
+            "size": 1
+        },
+        {
+            "name": "fsub",
+            "cop": 3,
+            "size": 1
+        },
+        {
+            "name": "fdiv",
+            "cop": 4,
+            "size": 1
+        },
+        {
+            "name": "fmul",
+            "cop": 5,
+            "size": 1
+        },
+        {
+            "name": "addw",
+            "cop": 6,
+            "size": 2
+        },
+        {
+            "name": "subw",
+            "cop": 7,
+            "size": 2
+        },
+        {
+            "name": "divw",
+            "cop": 8,
+            "size": 2
+        },
+        {
+            "name": "mulw",
+            "cop": 9,
+            "size": 2
+        },
+        {
+            "name": "jmpr",
+            "cop": 10,
+            "size": 2
+        },
+        {
+            "name": "jmpl",
+            "cop": 11,
+            "size": 3
+        },
+        {
+            "name": "jmplr",
+            "cop": 12,
+            "size": 4
+        },
+        
+        {
+            "name": "enter",
+            "cop": 13,
+            "size": 2
+        },
+        {
+            "name": "leave",
+            "cop": 14,
+            "size": 2
+        },
+        {
+            "name": "call",
+            "cop": 15,
+            "size": 2
+        },
+        {
+            "name": "ret",
+            "cop": 16,
+            "size": 1
+        },
+        {
+            "name": "adds",
+            "cop": 17,
+            "size": 2
+        },
+        {
+            "name": "subs",
+            "cop": 18,
+            "size": 2
+        },
+        {
+            "name": "divs",
+            "cop": 19,
+            "size": 2
+        },
+        {
+            "name": "muls",
+            "cop": 20,
+            "size": 2
+        },
+        {
+            "name": "addws",
+            "cop": 21,
+            "size": 2
+        },
+        {
+            "name": "subws",
+            "cop": 22,
+            "size": 2
+        },
+        {
+            "name": "divws",
+            "cop": 23,
+            "size": 2
+        },
+        {
+            "name": "mulws",
+            "cop": 24,
+            "size": 2
+        },
+        {
+            "name": "neg",
+            "cop": 25,
+            "size": 2
+        },
+        {
+            "name": "print",
+            "cop": 26,
+            "size": 2
+        },
+        {
+            "name": "in",
+            "cop": 27,
+            "size": 2
+        },
+        {
+            "name": "out",
+            "cop": 28,
+            "size": 2
+        }
+    ]
+}
