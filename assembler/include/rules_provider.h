@@ -3,6 +3,7 @@
 
 typedef int state_type;
 typedef std::function<state_type(symbol_provider&, std::stack<expression*>&,std::stack<state_type>&)> rule;
+#include "rpn.h"
 
 class rules_provider
 {
@@ -82,6 +83,17 @@ public:
                 return 0;
             }
         });
+
+        m.insert({6,
+            [](symbol_provider& sp ,std::stack<expression*>& expr,std::stack<state_type>& st)
+            {
+                expr.pop();
+                rpn r = rpn(sp,token({"]",token_type::right_brace}));
+                expr.push(new math_expression(r.translated));
+                return 7;
+            }
+        });
+
 
         m.insert({7,
             [](symbol_provider& sp ,std::stack<expression*>& expr,std::stack<state_type>& st)
