@@ -225,6 +225,10 @@ public:
         m.insert({17,
             [](symbol_provider& sp ,std::stack<expression*>& expr,std::stack<state_type>& st)
             {
+                while(!expr.empty())
+                    expr.pop();
+                while(!st.empty())
+                    st.pop();
                 return 1;
             }
         });
