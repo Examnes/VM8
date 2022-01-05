@@ -1,0 +1,104 @@
+@startuml statechart
+
+[*] --> 1
+1: get next
+1: push state 1
+
+1 --> 2 : top = ident
+1 --> 4 : top = mnemonic
+1 --> error : otherwise
+1 --> [*] : top = end
+
+2: push label(pop)
+2: get next
+2: push state 2
+
+2 --> 3 : top = colon
+2 --> error : top != colon
+
+3: pop
+3: get next 
+3: push state 3
+
+3 --> 4 : top = mnemonic
+
+3 --> error : otherwise
+
+4: push mnemonic(pop)
+4: get next
+4: push state 4
+
+4 --> 5
+
+5 --> 6 : top = left brace
+5 --> 7 : top = register | ident | number
+5 --> error : otherwise
+
+6 --> 7
+
+7 --> 8 : state top = 4
+7 --> 9 : state top = 8
+7 --> 10 : state top = 9
+7 --> 11 : top = end | state top = 10
+
+8: push arg1(pop)
+8: get next
+8: push state 8
+
+9: push arg2(pop)
+9: get next
+9: push state 9
+
+10: push arg3(pop)
+10: get next
+10: push state 10
+
+8 --> 5
+9 --> 5
+10 --> 5
+
+3 --> 11 : top = end 
+
+11 --> 12 : state top = 10
+11 --> 13 : state top = 9
+11 --> 14 : state top = 8
+11 --> 16 : state top = 3
+11: push command()
+
+12: pop command to var
+12: var.arg3 = pop
+12: push var
+12: pop state
+
+12 --> 13
+
+13: pop command to var
+13: var.arg2 = pop
+13: push var
+13: pop state
+
+13 --> 14
+
+14: pop command to var
+14: var.arg1 = pop
+14: push var
+14: pop state
+
+14 --> 15
+
+15: pop command to var
+15: var.mnemonic = pop
+15: push var
+15: pop state 
+
+16: pop command to var
+16: var.label = pop
+16: push var
+16: pop state  
+
+15 --> 16 : state top = 3
+15 --> [*] : state top = 1
+16 --> [*] : state top = 1
+
+
+@enduml

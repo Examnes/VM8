@@ -13,14 +13,12 @@ private:
     std::map<std::string, uint16_t> symbols;
     std::map<std::string, uint8_t> register_ids;
     std::map<std::string, base_provider*> providers;
-
     void collect_symbols();
 public:
     assembler(std::string file);
+    bool assemble();
     ~assembler();
 };
-
-
 
 
 #endif
