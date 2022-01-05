@@ -6,7 +6,8 @@ project(assembler VERSION 1.0 LANGUAGES CXX)
 set(SRC ${PROJECT_SOURCE_DIR}/src/main.cpp
         ${PROJECT_SOURCE_DIR}/src/assembler.cpp
         ${PROJECT_SOURCE_DIR}/src/loader.cpp
-        ${PROJECT_SOURCE_DIR}/src/math_parser.cpp
+        ${PROJECT_SOURCE_DIR}/src/validator_provider.cpp
+        ${PROJECT_SOURCE_DIR}/src/metadata_provider.cpp
 )
 
 add_executable(assembler ${SRC})

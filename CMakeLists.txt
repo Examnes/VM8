@@ -28,11 +28,13 @@ add_compile_options(
     -Wno-sign-conversion
     -Wno-sign-compare
     -Wno-sign-promo
+    -Wno-old-style-cast
 )
 
 set(SRC ${PROJECT_SOURCE_DIR}/src/interpretator.cpp
         ${PROJECT_SOURCE_DIR}/src/loader.cpp
         ${PROJECT_SOURCE_DIR}/src/main.cpp
+        ${PROJECT_SOURCE_DIR}/src/types.cpp
         ${PROJECT_SOURCE_DIR}/src/types.cpp
 )
 

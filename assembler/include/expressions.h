@@ -5,7 +5,7 @@
 #include "metadata_provider.h"
 #include "math_expression_member.h"
 
-enum expression_type
+enum class expression_type
 {
     unspecified,
     reg,
@@ -71,6 +71,15 @@ struct math_expression : expression
     math_expression(std::vector<math_expression_member> members): expression(token(), expression_type::mnemonic), members(members){}
 };
 
+enum class command_type
+{
+    no_command = 0,
+    commnad8,
+    command16,
+    command24,
+    command32
+};
+
 struct command_expression : expression
 {
     expression* label;
@@ -78,6 +87,7 @@ struct command_expression : expression
     expression* arg1;
     expression* arg2;
     expression* arg3;
+    command_type type;
     command_expression(): expression(token(), expression_type::command){}
 };
 

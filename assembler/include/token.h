@@ -24,6 +24,12 @@ enum token_type
     ending
 };
 
+struct token
+{
+    std::string value;
+    token_type type;
+};
+
 class symbol_provider
 {
 private:
@@ -35,11 +41,7 @@ public:
 };
 
 
-struct token
-{
-    std::string value;
-    token_type type;
-};
+
 
 class tokenizer
 {
@@ -53,15 +55,15 @@ public:
                 {"[0-9]+", token_type::number},
                 {"[:]", token_type::colon},
                 {"[,]", token_type::comma},
-                {"[\[]]", token_type::left_brace},
-                {"[\]]", token_type::right_brace},
+                {"[[]]", token_type::left_brace},
+                {"[]]", token_type::right_brace},
                 {"[+]", token_type::plus},
                 {"[-]", token_type::minus},
                 {"[/]", token_type::divide},
                 {"[*]", token_type::multiply},
-                {"[\()]", token_type::left_round_brace},
+                {"[(]", token_type::left_round_brace},
                 {"\n",token_type::newline},
-                {"[\)]", token_type::right_round_brace},
+                {"[)]", token_type::right_round_brace},
             };
 
         std::vector<token> matches;

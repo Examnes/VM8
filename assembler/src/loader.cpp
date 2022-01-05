@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <streambuf>
 using namespace std;
 
 loader::loader(std::string filename) : filename(filename)
@@ -17,12 +18,8 @@ bool loader::load()
     ifstream file = ifstream(filename);
     if(file.is_open())
     {
-        while (!file.eof())
-        {
-            std::string line;
-            getline(file,line);
-            lines.push_back(line);            
-        }
+        content = std::string((std::istreambuf_iterator<char>(file)),
+                 std::istreambuf_iterator<char>());
         return true;
     }
     return false;

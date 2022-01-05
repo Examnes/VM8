@@ -8,7 +8,7 @@ class loader
 private:
     std::string filename;
 public:
-    std::vector<std::string> lines;
+    std::string content;
     loader() = default;
     loader(std::string filename);
     bool load();

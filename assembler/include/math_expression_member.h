@@ -3,7 +3,7 @@
 
 #include "token.h"
 
-enum math_expression_member_type
+enum class math_expression_member_type
 {
     reg,
     label,
