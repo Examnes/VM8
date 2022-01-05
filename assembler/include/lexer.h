@@ -3,14 +3,13 @@
 
 #include "token.h"
 #include "expressions.h"
+#include "rules_provider.h"
 #include <stack>
 #include <map>
 #include <functional>
 
 
-typedef int state_type;
 
-typedef std::function<state_type(symbol_provider&, std::stack<expression*>&,std::stack<state_type>&)> rule;
 
 class parser
 {
@@ -21,7 +20,7 @@ private:
     symbol_provider line;
     std::map<state_type,rule> relation;
 public:
-    parser(std::vector<token> line):line(line){};
+    parser(std::vector<token> line):line(line){relation = rules_provider::get_rules();};
     std::vector<command_expression*> parse()
     {
         while (current_state != 277013)
