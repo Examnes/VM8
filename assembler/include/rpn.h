@@ -41,10 +41,10 @@ public:
                 {
                     math_expression_member mem;
                     mem.value = cultivator.top();
-                    if(cultivator.top().type = token_type::number)
+                    if(cultivator.top().type == token_type::number)
                     {
                             mem.type = math_expression_member_type::number;
-                    }else if(cultivator.top().type = token_type::ident)
+                    }else if(cultivator.top().type == token_type::ident)
                     {
                         if(register_expression::is_register(cultivator.top()))
                         {

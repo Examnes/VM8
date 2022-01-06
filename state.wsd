@@ -89,7 +89,7 @@
 15: pop command to var
 15: var.mnemonic = pop
 15: push var
-15: pop state 
+15: pop state 1ded
 
 16: pop command to var
 16: var.label = pop
