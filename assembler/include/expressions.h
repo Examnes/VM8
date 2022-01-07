@@ -82,8 +82,8 @@ enum class command_type
 
 struct command_expression : expression
 {
-    expression* label;
-    expression* mnemonic;
+    identifier_expression* label;
+    mnemonic_expression* mnemonic;
     expression* arg1;
     expression* arg2;
     expression* arg3;

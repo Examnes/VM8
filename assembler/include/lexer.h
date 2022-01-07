@@ -14,7 +14,7 @@
 class parser
 {
 private:
-    state_type current_state = 0;
+    state_type current_state = 1;
     std::stack<expression*> expr_st;
     std::stack<state_type> state_st;
     symbol_provider line;

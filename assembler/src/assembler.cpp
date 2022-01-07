@@ -9,6 +9,7 @@
 assembler::assembler(std::string file)
 {
     l = loader(file);
+    l.load();
     std::vector<token> tokens = tokenizer::parse(l.content);
     parser p = parser(tokens);
     commands = p.parse();

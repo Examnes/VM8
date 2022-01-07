@@ -79,7 +79,16 @@ public:
                 if (expr.top()->value.type == token_type::number)
                     return 7;
                 if (expr.top()->value.type == token_type::ident)
+                {
+                    expression* e = expr.top();
+                    expr.pop();
+                    if(register_expression::is_register(expr.top()->value))
+                    {
+                        expr.push(new register_expression(e->value));
+                    }else
+                        expr.push(new identifier_expression(e->value));
                     return 7;
+                }
                 return 0;
             }
         });
@@ -199,7 +208,7 @@ public:
             {
                 command_expression* ce = (command_expression*) expr.top();
                 expr.pop();
-                ce->mnemonic = expr.top();
+                ce->mnemonic = (mnemonic_expression*)expr.top();
                 expr.pop();
                 expr.push(ce);
                 st.pop();
@@ -208,13 +217,12 @@ public:
                 return 17;
             }
         });
-
         m.insert({16,
             [](symbol_provider& sp ,std::stack<expression*>& expr,std::stack<state_type>& st)
             {
                 command_expression* ce = (command_expression*) expr.top();
                 expr.pop();
-                ce->label = expr.top();
+                ce->label = (identifier_expression*)expr.top();
                 expr.pop();
                 expr.push(ce);
                 st.pop();

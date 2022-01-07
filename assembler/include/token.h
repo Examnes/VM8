@@ -4,6 +4,7 @@
 #include <string>
 #include <regex>
 #include <map>
+#include <climits>
 
 enum token_type
 {
@@ -51,22 +52,21 @@ public:
         std::map<std::string, token_type> patterns =
             {
                 {"[A-Za-z_][A-Za-z_0-9]*", token_type::ident},
-                {"[A-Za-z_][A-Za-z_0-9]*[:]", token_type::ident},
                 {"[0-9]+", token_type::number},
                 {"[:]", token_type::colon},
                 {"[,]", token_type::comma},
-                {"[[]]", token_type::left_brace},
+                {"[[]]",token_type::left_brace},
                 {"[]]", token_type::right_brace},
                 {"[+]", token_type::plus},
                 {"[-]", token_type::minus},
                 {"[/]", token_type::divide},
                 {"[*]", token_type::multiply},
                 {"[(]", token_type::left_round_brace},
-                {"\n",token_type::newline},
+                {"\n",  token_type::newline},
                 {"[)]", token_type::right_round_brace},
             };
 
-        std::vector<token> matches;
+        std::vector<std::pair<int,token>> matches;
 
         for (auto pattern = patterns.begin(); pattern != patterns.end(); pattern++)
         {
@@ -74,11 +74,17 @@ public:
             auto words_begin = std::sregex_iterator(str.begin(), str.end(), r);
             auto words_end = std::sregex_iterator();
 
-            for (auto it = words_begin; it != words_end; ++it)
-                matches.push_back(token({it->str(), pattern->second}));
+            for (std::sregex_iterator it = words_begin; it != words_end; ++it)
+                matches.push_back(std::make_pair(it->position(), token({it->str(), pattern->second})));
         }
-        matches.push_back(token({"",token_type::ending}));
-        return matches;
+        matches.push_back(std::make_pair(INT_MAX, token({"",token_type::ending})));
+        sort(matches.begin(),matches.end(),
+            [](std::pair<int,token> a, std::pair<int,token>b){return a.first < b.first;});
+        std::vector<token> res;
+
+        for(auto t : matches)
+            res.push_back(t.second);
+        return res;
     }
 };
 

@@ -2,6 +2,7 @@
 #define METADATA_PROVIDER_H
 
 #include <map>
+#include <string>
 
 class metadata_provider
 {

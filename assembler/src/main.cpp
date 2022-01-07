@@ -7,5 +7,7 @@ int main(int argc,char** argv)
     {
         std::cout << "Ассемблер требует путь к компилируемому файлу" << std::endl;
     }
+    assembler ass = assembler("test.vm8");
+    ass.assemble();
     return 0;
 }
