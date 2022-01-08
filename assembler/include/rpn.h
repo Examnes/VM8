@@ -86,6 +86,31 @@ public:
         }
         
     }
+    static int evaluate(std::vector<math_expression_member> members, std::map<std::string, uint16_t>& symbols)
+    {
+        std::stack<math_expression_member> cultivator;
+        math_expression_member current = members.back(); members.pop_back();
+        while (!members.empty())
+        {
+            if(current.type != math_expression_member_type::op)
+            {
+                cultivator.push(current);
+            }else
+            {
+                math_expression_member arg1,arg2;
+                arg1 = cultivator.top(); cultivator.pop();
+                arg2 = cultivator.top(); cultivator.pop();
+                int val1,val2;
+                if(arg1.type == math_expression_member_type::number)
+                    val1 = (number_expression*)arg1
+                switch(current.value.value[0])
+                {
+                    case '+':
+                };
+            }
+        }
+        
+    }
 };
 
 
