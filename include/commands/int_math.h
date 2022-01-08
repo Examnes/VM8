@@ -12,17 +12,17 @@ public:
     {
 
         converter conv;
-        conv.data[0] = m[s.reg[comm.c32.a1]];
-        conv.data[1] = m[s.reg[comm.c32.a1] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a1] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a1] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a1]];
+        conv.data[1] = m[s.reg[comm.c16.a1] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a1] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a1] + 3];
         
         int a = conv.wide_signed;
 
-        conv.data[0] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3]];
-        conv.data[1] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3]];
+        conv.data[1] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 3];
         
         int b = conv.wide_signed;
 
@@ -30,10 +30,10 @@ public:
 
         conv.wide_signed = c;
 
-        m[s.reg[comm.c32.a1]] = conv.data[0];
-        m[s.reg[comm.c32.a1] + 1] = conv.data[1];
-        m[s.reg[comm.c32.a1] + 2] = conv.data[2];
-        m[s.reg[comm.c32.a1] + 3] = conv.data[3];
+        m[s.reg[comm.c16.a1]] = conv.data[0];
+        m[s.reg[comm.c16.a1] + 1] = conv.data[1];
+        m[s.reg[comm.c16.a1] + 2] = conv.data[2];
+        m[s.reg[comm.c16.a1] + 3] = conv.data[3];
         s.psw.flags = get_new_flags<int>(a,b,c);
     }
 };
@@ -46,17 +46,17 @@ public:
     void execute(command comm)
     {
         converter conv;
-        conv.data[0] = m[s.reg[comm.c32.a1]];
-        conv.data[1] = m[s.reg[comm.c32.a1] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a1] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a1] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a1]];
+        conv.data[1] = m[s.reg[comm.c16.a1] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a1] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a1] + 3];
         
         int a = conv.wide_signed;
 
-        conv.data[0] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3]];
-        conv.data[1] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3]];
+        conv.data[1] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 3];
         
         int b = conv.wide_signed;
 
@@ -64,10 +64,10 @@ public:
 
         conv.wide_signed = c;
 
-        m[s.reg[comm.c32.a1]] = conv.data[0];
-        m[s.reg[comm.c32.a1] + 1] = conv.data[1];
-        m[s.reg[comm.c32.a1] + 2] = conv.data[2];
-        m[s.reg[comm.c32.a1] + 3] = conv.data[3];
+        m[s.reg[comm.c16.a1]] = conv.data[0];
+        m[s.reg[comm.c16.a1] + 1] = conv.data[1];
+        m[s.reg[comm.c16.a1] + 2] = conv.data[2];
+        m[s.reg[comm.c16.a1] + 3] = conv.data[3];
         s.psw.flags = get_new_flags<int>(a,b,c);
     }
 };
@@ -80,17 +80,17 @@ public:
     void execute(command comm)
     {
         converter conv;
-        conv.data[0] = m[s.reg[comm.c32.a1]];
-        conv.data[1] = m[s.reg[comm.c32.a1] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a1] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a1] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a1]];
+        conv.data[1] = m[s.reg[comm.c16.a1] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a1] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a1] + 3];
         
         int a = conv.wide_signed;
 
-        conv.data[0] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3]];
-        conv.data[1] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3]];
+        conv.data[1] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 3];
         
         int b = conv.wide_signed;
 
@@ -98,10 +98,10 @@ public:
 
         conv.wide_signed = c;
 
-        m[s.reg[comm.c32.a1]] = conv.data[0];
-        m[s.reg[comm.c32.a1] + 1] = conv.data[1];
-        m[s.reg[comm.c32.a1] + 2] = conv.data[2];
-        m[s.reg[comm.c32.a1] + 3] = conv.data[3];
+        m[s.reg[comm.c16.a1]] = conv.data[0];
+        m[s.reg[comm.c16.a1] + 1] = conv.data[1];
+        m[s.reg[comm.c16.a1] + 2] = conv.data[2];
+        m[s.reg[comm.c16.a1] + 3] = conv.data[3];
         s.psw.flags = get_new_flags<int>(a,b,c);
     }
 };
@@ -114,17 +114,17 @@ public:
     void execute(command comm)
     {
         converter conv;
-        conv.data[0] = m[s.reg[comm.c32.a1]];
-        conv.data[1] = m[s.reg[comm.c32.a1] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a1] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a1] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a1]];
+        conv.data[1] = m[s.reg[comm.c16.a1] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a1] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a1] + 3];
         
         int a = conv.wide_signed;
 
-        conv.data[0] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3]];
-        conv.data[1] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3]];
+        conv.data[1] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 3];
         
         int b = conv.wide_signed;
 
@@ -132,10 +132,10 @@ public:
 
         conv.wide_signed = c;
 
-        m[s.reg[comm.c32.a1]] = conv.data[0];
-        m[s.reg[comm.c32.a1] + 1] = conv.data[1];
-        m[s.reg[comm.c32.a1] + 2] = conv.data[2];
-        m[s.reg[comm.c32.a1] + 3] = conv.data[3];
+        m[s.reg[comm.c16.a1]] = conv.data[0];
+        m[s.reg[comm.c16.a1] + 1] = conv.data[1];
+        m[s.reg[comm.c16.a1] + 2] = conv.data[2];
+        m[s.reg[comm.c16.a1] + 3] = conv.data[3];
         s.psw.flags = get_new_flags<int>(a,b,c);
     }
 };
@@ -149,17 +149,17 @@ public:
     {
 
         converter conv;
-        conv.data[0] = m[s.reg[comm.c32.a1]];
-        conv.data[1] = m[s.reg[comm.c32.a1] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a1] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a1] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a1]];
+        conv.data[1] = m[s.reg[comm.c16.a1] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a1] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a1] + 3];
         
         unsigned int a = conv.wide_unsigned;
 
-        conv.data[0] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3]];
-        conv.data[1] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3]];
+        conv.data[1] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 3];
         
         unsigned int b = conv.wide_unsigned;
 
@@ -167,10 +167,10 @@ public:
 
         conv.wide_unsigned = c;
 
-        m[s.reg[comm.c32.a1]] = conv.data[0];
-        m[s.reg[comm.c32.a1] + 1] = conv.data[1];
-        m[s.reg[comm.c32.a1] + 2] = conv.data[2];
-        m[s.reg[comm.c32.a1] + 3] = conv.data[3];
+        m[s.reg[comm.c16.a1]] = conv.data[0];
+        m[s.reg[comm.c16.a1] + 1] = conv.data[1];
+        m[s.reg[comm.c16.a1] + 2] = conv.data[2];
+        m[s.reg[comm.c16.a1] + 3] = conv.data[3];
         s.psw.flags = get_new_flags<unsigned int>(a,b,c);
     }
 };
@@ -183,17 +183,17 @@ public:
     void execute(command comm)
     {
         converter conv;
-        conv.data[0] = m[s.reg[comm.c32.a1]];
-        conv.data[1] = m[s.reg[comm.c32.a1] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a1] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a1] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a1]];
+        conv.data[1] = m[s.reg[comm.c16.a1] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a1] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a1] + 3];
         
         unsigned int a = conv.wide_unsigned;
 
-        conv.data[0] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3]];
-        conv.data[1] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3]];
+        conv.data[1] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 3];
         
         unsigned int b = conv.wide_unsigned;
 
@@ -201,10 +201,10 @@ public:
 
         conv.wide_unsigned = c;
 
-        m[s.reg[comm.c32.a1]] = conv.data[0];
-        m[s.reg[comm.c32.a1] + 1] = conv.data[1];
-        m[s.reg[comm.c32.a1] + 2] = conv.data[2];
-        m[s.reg[comm.c32.a1] + 3] = conv.data[3];
+        m[s.reg[comm.c16.a1]] = conv.data[0];
+        m[s.reg[comm.c16.a1] + 1] = conv.data[1];
+        m[s.reg[comm.c16.a1] + 2] = conv.data[2];
+        m[s.reg[comm.c16.a1] + 3] = conv.data[3];
         s.psw.flags = get_new_flags<unsigned int>(a,b,c);
     }
 };
@@ -217,17 +217,17 @@ public:
     void execute(command comm)
     {
         converter conv;
-        conv.data[0] = m[s.reg[comm.c32.a1]];
-        conv.data[1] = m[s.reg[comm.c32.a1] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a1] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a1] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a1]];
+        conv.data[1] = m[s.reg[comm.c16.a1] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a1] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a1] + 3];
         
         unsigned int a = conv.wide_unsigned;
 
-        conv.data[0] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3]];
-        conv.data[1] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3]];
+        conv.data[1] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 3];
         
         unsigned int b = conv.wide_unsigned;
 
@@ -235,10 +235,10 @@ public:
 
         conv.wide_unsigned = c;
 
-        m[s.reg[comm.c32.a1]] = conv.data[0];
-        m[s.reg[comm.c32.a1] + 1] = conv.data[1];
-        m[s.reg[comm.c32.a1] + 2] = conv.data[2];
-        m[s.reg[comm.c32.a1] + 3] = conv.data[3];
+        m[s.reg[comm.c16.a1]] = conv.data[0];
+        m[s.reg[comm.c16.a1] + 1] = conv.data[1];
+        m[s.reg[comm.c16.a1] + 2] = conv.data[2];
+        m[s.reg[comm.c16.a1] + 3] = conv.data[3];
         s.psw.flags = get_new_flags<unsigned int>(a,b,c);
     }
 };
@@ -251,17 +251,17 @@ public:
     void execute(command comm)
     {
         converter conv;
-        conv.data[0] = m[s.reg[comm.c32.a1]];
-        conv.data[1] = m[s.reg[comm.c32.a1] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a1] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a1] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a1]];
+        conv.data[1] = m[s.reg[comm.c16.a1] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a1] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a1] + 3];
         
         unsigned int a = conv.wide_unsigned;
 
-        conv.data[0] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3]];
-        conv.data[1] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a2] + s.reg[comm.c32.a3] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3]];
+        conv.data[1] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a2] + s.reg[comm.c16.a3] + 3];
         
         unsigned int b = conv.wide_unsigned;
 
@@ -269,10 +269,10 @@ public:
 
         conv.wide_unsigned = c;
 
-        m[s.reg[comm.c32.a1]] = conv.data[0];
-        m[s.reg[comm.c32.a1] + 1] = conv.data[1];
-        m[s.reg[comm.c32.a1] + 2] = conv.data[2];
-        m[s.reg[comm.c32.a1] + 3] = conv.data[3];
+        m[s.reg[comm.c16.a1]] = conv.data[0];
+        m[s.reg[comm.c16.a1] + 1] = conv.data[1];
+        m[s.reg[comm.c16.a1] + 2] = conv.data[2];
+        m[s.reg[comm.c16.a1] + 3] = conv.data[3];
         s.psw.flags = get_new_flags<unsigned int>(a,b,c);
     }
 };
@@ -285,17 +285,17 @@ public:
     void execute(command comm)
     {
         converter conv;
-        conv.data[0] = m[s.reg[comm.c32.a1]];
-        conv.data[1] = m[s.reg[comm.c32.a1] + 1];
-        conv.data[2] = m[s.reg[comm.c32.a1] + 2];
-        conv.data[3] = m[s.reg[comm.c32.a1] + 3];
+        conv.data[0] = m[s.reg[comm.c16.a1]];
+        conv.data[1] = m[s.reg[comm.c16.a1] + 1];
+        conv.data[2] = m[s.reg[comm.c16.a1] + 2];
+        conv.data[3] = m[s.reg[comm.c16.a1] + 3];
         
         conv.wide_signed = -conv.wide_signed;
 
-        m[s.reg[comm.c32.a1]] = conv.data[0];
-        m[s.reg[comm.c32.a1] + 1] = conv.data[1];
-        m[s.reg[comm.c32.a1] + 2] = conv.data[2];
-        m[s.reg[comm.c32.a1] + 3] = conv.data[3];
+        m[s.reg[comm.c16.a1]] = conv.data[0];
+        m[s.reg[comm.c16.a1] + 1] = conv.data[1];
+        m[s.reg[comm.c16.a1] + 2] = conv.data[2];
+        m[s.reg[comm.c16.a1] + 3] = conv.data[3];
     }
 };
 

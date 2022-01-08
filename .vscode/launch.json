@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
-            "args": ["test.vm8"],
+            "args": ["test.vm8", "test"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [

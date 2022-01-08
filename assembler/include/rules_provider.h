@@ -27,7 +27,10 @@ public:
                     return 17;
 
                 if (expr.top()->value.type == token_type::ending)
+                {
+                    expr.pop();
                     return 277013;
+                }    
                 
                 return 0;
             }
@@ -67,6 +70,8 @@ public:
                 expression* t = expr.top();
                 expr.pop();
                 expr.push(new mnemonic_expression(t->value));
+                expr.push(new expression(sp.get_next()));
+                st.push(4);
                 return 5;
             }
         });
@@ -82,12 +87,18 @@ public:
                 {
                     expression* e = expr.top();
                     expr.pop();
-                    if(register_expression::is_register(expr.top()->value))
+                    if(register_expression::is_register(e->value))
                     {
                         expr.push(new register_expression(e->value));
                     }else
                         expr.push(new identifier_expression(e->value));
                     return 7;
+                }
+
+                if (expr.top()->value.type == token_type::newline)
+                {
+                    expr.pop();
+                    return 11;
                 }
                 return 0;
             }
@@ -233,8 +244,6 @@ public:
         m.insert({17,
             [](symbol_provider& sp ,std::stack<expression*>& expr,std::stack<state_type>& st)
             {
-                while(!expr.empty())
-                    expr.pop();
                 while(!st.empty())
                     st.pop();
                 return 1;
