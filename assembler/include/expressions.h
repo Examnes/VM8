@@ -74,7 +74,7 @@ struct math_expression : expression
 enum class command_type
 {
     no_command = 0,
-    commnad8,
+    command8,
     command16,
     command24,
     command32
