@@ -121,7 +121,7 @@ struct jmpl_v : validator
             arg = cmd.arg1->value.value;
         }else
         {
-            arg = ((math_expression*) cmd.arg1)->members.back().value.value;
+            arg = ((math_expression*) cmd.arg1)->members.back().str_value;
             indirect = true;
         }
         if(symbols.count(arg))

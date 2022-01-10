@@ -9,10 +9,12 @@
 class rpn
 {
 private:
-    static bool is_operator(token t)
+    static math_operation_type get_operator(token t)
     {
-        return t.type == token_type::plus or t.type == token_type::minus or
-                 t.type == token_type::multiply or t.type == token_type::divide;
+        if (t.type == token_type::plus or t.type == token_type::minus or
+                 t.type == token_type::multiply or t.type == token_type::divide)
+        return (math_operation_type)t.type;
+        return math_operation_type::error;
     }
 
     static int priority(token t)
@@ -32,6 +34,27 @@ public:
         token current = s.get_next();
         while (current.type != stop.type)
         {
+            if (current.type == token_type::number)
+            {
+                math_expression_member mem;
+                mem.type = math_expression_member_type::number;
+                mem.int_value = std::stoi(current.value);
+                translated.push_back(mem);
+            }
+
+            if (current.type == token_type::ident)
+            {
+                math_expression_member mem;
+                if(register_expression::is_register(cultivator.top()))
+                {
+                    mem.type = math_expression_member_type::reg;
+                }else
+                    mem.type = math_expression_member_type::label;
+                mem.str_value = current.value;
+                translated.push_back(mem);
+            }
+            
+            
             if(current.type == token_type::left_round_brace)
             {
                     cultivator.push(current);
@@ -40,10 +63,11 @@ public:
                 while (cultivator.top().type != token_type::left_round_brace)
                 {
                     math_expression_member mem;
-                    mem.value = cultivator.top();
+                    
                     if(cultivator.top().type == token_type::number)
                     {
-                            mem.type = math_expression_member_type::number;
+                        mem.type = math_expression_member_type::number;
+                        mem.int_value = std::stoi(cultivator.top().value);
                     }else if(cultivator.top().type == token_type::ident)
                     {
                         if(register_expression::is_register(cultivator.top()))
@@ -51,9 +75,11 @@ public:
                             mem.type = math_expression_member_type::reg;
                         }else
                             mem.type = math_expression_member_type::label;
-                    }else if(is_operator(cultivator.top()))
+                        mem.str_value = cultivator.top().value;
+                    }else if(get_operator(cultivator.top()) != math_operation_type::error)
                     {
                         mem.type = math_expression_member_type::op;
+                        mem.op_value = get_operator(cultivator.top());
                     }else
                     {
                         throw std::logic_error("Неизвестное выражение: " + cultivator.top().value);
@@ -62,12 +88,12 @@ public:
                     cultivator.pop();
                 }
                 cultivator.pop();
-            }else if(is_operator(current))
+            }else if(get_operator(current) != math_operation_type::error)
             {
                 while (priority(current) < priority(cultivator.top()))
                 {
                     math_expression_member mem;
-                    mem.value = cultivator.top();
+                    mem.op_value = get_operator(cultivator.top());
                     mem.type = math_expression_member_type::op;
                     translated.push_back(mem);
                     cultivator.pop();
@@ -79,7 +105,7 @@ public:
         while (!cultivator.empty())
         {
             math_expression_member mem;
-            mem.value = cultivator.top();
+            mem.op_value = get_operator(cultivator.top());
             mem.type = math_expression_member_type::op;
             translated.push_back(mem);
             cultivator.pop();
@@ -102,14 +128,45 @@ public:
                 arg2 = cultivator.top(); cultivator.pop();
                 int val1,val2;
                 if(arg1.type == math_expression_member_type::number)
-                    val1 = (number_expression*)arg1
-                switch(current.value.value[0])
+                    val1 = arg1.int_value;
+                if(arg1.type == math_expression_member_type::reg)
+                    val1 = 0;
+                if(arg1.type == math_expression_member_type::label)
                 {
-                    case '+':
+                    if (symbols.count(arg1.str_value))
+                    {
+                        val1 = symbols[arg1.str_value];
+                    }
+                }
+
+                if(arg2.type == math_expression_member_type::number)
+                    val2 = arg2.int_value;
+                if(arg2.type == math_expression_member_type::reg)
+                    val2 = 0;
+                if(arg2.type == math_expression_member_type::label)
+                {
+                    if (symbols.count(arg2.str_value))
+                    {
+                        val2 = symbols[arg2.str_value];
+                    }
+                }
+
+                switch(current.op_value)
+                {
+                    case math_operation_type::add :
+                        cultivator.push(math_expression_member(val1 + val2));
+                    case math_operation_type::sub :
+                        cultivator.push(math_expression_member(val1 - val2));
+                    case math_operation_type::div :
+                        cultivator.push(math_expression_member(val1 / val2));
+                    case math_operation_type::mul :
+                        cultivator.push(math_expression_member(val1 * val2));
+                    default:
+                        break;
                 };
             }
         }
-        
+        return cultivator.top().int_value;
     }
 };
 

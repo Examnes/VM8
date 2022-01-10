@@ -52,7 +52,7 @@ public:
         std::map<std::string, token_type> patterns =
             {
                 {"[A-Za-z_][A-Za-z_0-9]*", token_type::ident},
-                {"[0-9]+", token_type::number},
+                {"[-]?[0-9]+", token_type::number},
                 {"[:]", token_type::colon},
                 {"[,]", token_type::comma},
                 {"[[]]",token_type::left_brace},

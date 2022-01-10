@@ -11,10 +11,27 @@ enum class math_expression_member_type
     op
 };
 
+enum class math_operation_type
+{
+    add = token_type::plus,
+    sub = token_type::minus,
+    mul = token_type::multiply,
+    div = token_type::divide,
+    error
+};
+
 struct math_expression_member
 {
-    token value;
     math_expression_member_type type;
+    int int_value;
+    std::string str_value;
+    math_operation_type op_value;
+    math_expression_member(int a)
+    {
+        int_value = a;
+        type = math_expression_member_type::number;
+    }
+    math_expression_member() = default;
 };
 
 #endif // MATH_EXPRESSION_MEMBER_H
