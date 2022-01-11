@@ -128,6 +128,7 @@ struct jmpl_v : validator
         if(symbols.count(arg))
         {
             c.c24.addr = symbols[arg];
+            address_created = true;
         }
         c.c24.b = indirect;
         res.push_back(c.parts[0]);
@@ -267,6 +268,7 @@ struct jmplr_v : validator
             if (symbols.count(cmd.arg2->value.value))
             {
                 c.c32.addr = symbols[cmd.arg2->value.value];
+                address_created = true;
             }
         }
         
@@ -280,16 +282,117 @@ struct jmplr_v : validator
                 if (symbols.count(cmd.arg3->value.value))
                 {
                     c.c32.addr = symbols[cmd.arg3->value.value];
+                    address_created = true;
                 }
             }
+            c.c32.a1 |= 0b010;
         }
-        
-        
+
+        if (indirect)
+        {
+            c.c32.a1 |= 0b100;
+        }
+    
+        res.push_back(c.parts[0]);
+        res.push_back(c.parts[1]);
+        res.push_back(c.parts[2]);
+        res.push_back(c.parts[3]);
         
         return res;
     }
 };
 
+struct mov_v : validator
+{
+    bool set_size(command_expression& cmd)
+    {
+        if (cmd.arg1->type == expression_type::reg)
+        {
+            if (cmd.arg3)
+            {
+                if ((cmd.arg2->type == expression_type::reg and cmd.arg3->type == expression_type::identifier) or
+                (cmd.arg3->type == expression_type::reg and cmd.arg2->type == expression_type::identifier))
+                {
+                    cmd.type = command_type::command32;
+                    return true;
+                }
+                return false;
+            }else
+            {
+                if (cmd.arg2->type == expression_type::reg)
+                {
+                    cmd.type = command_type::command16;
+                    return true;
+                }
+                if (cmd.arg2->type == expression_type::identifier)
+                {
+                    cmd.type = command_type::command32;
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    std::vector<uint8_t> evaluate(command_expression& cmd, std::map<std::string, uint16_t>& symbols)
+    {
+        std::vector<uint8_t> res;
+        command c;
+        c.c32.cop = cmd.mnemonic->opcode;
+        c.c32.a2 = cmd.arg1->to_register()->register_id;
+        bool register_exist = false;
+        bool address_exist = false;
+        if (cmd.arg2->type == expression_type::reg)
+        {
+            c.c32.a3 = cmd.arg2->to_register()->register_id;
+            register_exist = true;
+        }else
+        {
+            if (symbols.count(cmd.arg2->to_identifier()->value.value))
+            {
+                c.c32.addr = symbols[cmd.arg2->to_identifier()->value.value];
+                address_exist = true;
+                address_created = true;
+            }
+        }
+
+        if (cmd.arg3)
+        {
+            if (cmd.arg3->type == expression_type::reg)
+            {
+                c.c32.a3 = cmd.arg3->to_register()->register_id;
+                register_exist = true;
+            }else
+            {
+                if (symbols.count(cmd.arg3->to_identifier()->value.value))
+                {
+                    c.c32.addr = symbols[cmd.arg3->to_identifier()->value.value];
+                    address_exist = true;
+                    address_created = true;
+                }
+            }
+        }
+        
+        res.push_back(c.parts[0]);
+        res.push_back(c.parts[1]);
+        if (address_exist and !register_exist)
+        {
+            c.c32.a1 = inderect;
+            res.push_back(c.parts[2]);
+            res.push_back(c.parts[3]);
+        }else if(!address_exist and register_exist)
+        {
+            c.c32.a1 = direct;
+        }else
+        {
+            c.c32.a1 = relative;
+            res.push_back(c.parts[2]);
+            res.push_back(c.parts[3]);
+        }
+        return res;
+    }
+};
 
 
 #endif // VALIDATOR_H

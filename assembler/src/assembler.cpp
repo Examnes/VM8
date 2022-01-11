@@ -57,6 +57,8 @@ void assembler::assemble()
     int current_address = 0;
     for (auto &&c : commands)
     {
+        if (c->type == command_type::no_command)
+            continue;
         symbols["currentaddress"] = current_address;
         std::vector<uint8_t> data = validators_provider::validators[c->mnemonic->value.value]->evaluate(*c,symbols);
         out.insert(std::end(out), std::begin(data), std::end(data));

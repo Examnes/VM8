@@ -94,11 +94,11 @@ enum class command_type
 
 struct command_expression : expression
 {
-    identifier_expression* label;
-    mnemonic_expression* mnemonic;
-    expression* arg1;
-    expression* arg2;
-    expression* arg3;
+    identifier_expression* label = nullptr;
+    mnemonic_expression* mnemonic = nullptr;
+    expression* arg1 = nullptr;
+    expression* arg2 = nullptr;
+    expression* arg3 = nullptr;
     command_type type;
     command_expression(): expression(token(), expression_type::command){}
 };

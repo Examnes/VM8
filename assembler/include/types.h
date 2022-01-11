@@ -51,7 +51,7 @@ struct command24
 {
 	code_t cop : 7;
 	uint8_t b : 1;
-	word addr;
+	addr_t addr;
 };
 
 struct command32 
@@ -60,7 +60,7 @@ struct command32
 	uint8_t a1 : 3;
 	uint8_t a2 : 3;
 	uint8_t a3 : 3;
-	word addr;
+	addr_t addr;
 };
 
 union command
@@ -70,6 +70,13 @@ union command
 	command24 c24;
 	command32 c32;
 	word parts[4];
+};
+
+enum mov_type
+{
+	direct,
+	inderect,
+	relative
 };
 
 #endif

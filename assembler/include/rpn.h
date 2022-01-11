@@ -45,7 +45,7 @@ public:
             if (current.type == token_type::ident)
             {
                 math_expression_member mem;
-                if(register_expression::is_register(cultivator.top()))
+                if(register_expression::is_register(current))
                 {
                     mem.type = math_expression_member_type::reg;
                 }else
@@ -57,7 +57,7 @@ public:
             
             if(current.type == token_type::left_round_brace)
             {
-                    cultivator.push(current);
+                cultivator.push(current);
             }else if(current.type == token_type::right_round_brace)
             {
                 while (cultivator.top().type != token_type::left_round_brace)
@@ -94,16 +94,18 @@ public:
                 cultivator.pop();
             }else if(get_operator(current) != math_operation_type::error)
             {
-                while (priority(current) < priority(cultivator.top()))
-                {
-                    math_expression_member mem;
-                    mem.op_value = get_operator(cultivator.top());
-                    mem.type = math_expression_member_type::op;
-                    translated.push_back(mem);
-                    cultivator.pop();
-                }
+                if (!cultivator.empty())
+                    while (priority(current) < priority(cultivator.top()))
+                    {
+                        math_expression_member mem;
+                        mem.op_value = get_operator(cultivator.top());
+                        mem.type = math_expression_member_type::op;
+                        translated.push_back(mem);
+                        cultivator.pop();
+                    }
                 cultivator.push(current);
             }
+            current = s.get_next();
         }
         
         while (!cultivator.empty())
@@ -119,6 +121,7 @@ public:
     static int evaluate(std::vector<math_expression_member> members, std::map<std::string, uint16_t>& symbols)
     {
         std::stack<math_expression_member> cultivator;
+        std::reverse(members.begin(),members.end());
         math_expression_member current = members.back(); members.pop_back();
         while (!members.empty())
         {
@@ -173,6 +176,7 @@ public:
                         break;
                 };
             }
+            current = members.back(); members.pop_back();
         }
         return cultivator.top().int_value;
     }

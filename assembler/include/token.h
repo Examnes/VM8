@@ -55,7 +55,7 @@ public:
                 {"[-]?[0-9]+", token_type::number},
                 {"[:]", token_type::colon},
                 {"[,]", token_type::comma},
-                {"[[]]",token_type::left_brace},
+                {"[[]",token_type::left_brace},
                 {"[]]", token_type::right_brace},
                 {"[+]", token_type::plus},
                 {"[-]", token_type::minus},

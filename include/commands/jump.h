@@ -73,7 +73,10 @@ public:
     ~call_command_handler(){}
     void execute(command comm)
     {
-        m[s.sp--] = s.psw.ip;
+        converter cov;
+        cov.short_unsigned[0] = s.psw.ip;
+        m[s.sp--] = cov.data[1];
+        m[s.sp--] = cov.data[0];
         jmpl_command_handler::execute(comm);
     }
 };
@@ -85,9 +88,14 @@ public:
     ~ret_command_handler(){}
     void execute(command comm)
     {
-        m[s.sp--] = s.psw.ip;
+        converter cov;
+        cov.data[0] = m[s.sp++];
+        cov.data[1] = m[s.sp++];
+        comm.c24.addr = cov.short_unsigned[0];
+        comm.c24.b = true;
         jmpl_command_handler::execute(comm);
     }
+
 };
 
 class cmp_command_handler : public command_handler

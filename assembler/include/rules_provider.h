@@ -59,7 +59,11 @@ public:
                 if(mnemonic_expression::is_opcode(expr.top()->value))
                     return 4;
                 if (expr.top()->value.type == token_type::newline)
+                {
+                    expr.pop();
                     return 11;
+                }
+                
                 return 0;
             }
         });

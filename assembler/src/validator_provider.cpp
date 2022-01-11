@@ -9,6 +9,9 @@ std::map<std::string,validator*> validators_provider::validators = {
     {"leave",new no_op()},
     {"jmpl",new jmpl_v()},
     {"jmpr",new jmpr_v()},
+    {"jmplr",new jmplr_v()},
+    {"call",new jmpl_v()},
+    {"ret",new no_op()},
     {"fadd",new no_op()},
     {"fdiv",new no_op()},
     {"fmul",new no_op()},
@@ -20,5 +23,6 @@ std::map<std::string,validator*> validators_provider::validators = {
     {"addw",new mathw_v()},
     {"mulw",new mathw_v()},
     {"divw",new mathw_v()},
-    {"subw",new mathw_v()}
+    {"subw",new mathw_v()},
+    {"mov",new mov_v()}
 };
