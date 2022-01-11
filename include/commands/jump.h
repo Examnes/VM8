@@ -108,11 +108,11 @@ public:
 
         if (cov1.wide_signed > cov2.wide_signed)
         {
-            //s.psw.flags.cf = 0;
+            s.psw.flags.nf = 0;
             s.psw.flags.zf = 0;
         }else if (cov1.wide_signed < cov2.wide_signed) 
         { 
-            //s.psw.flags.cf = 1;
+            s.psw.flags.nf = 1;
             s.psw.flags.zf = 0; 
         }
         else

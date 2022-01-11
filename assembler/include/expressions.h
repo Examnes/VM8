@@ -16,11 +16,23 @@ enum class expression_type
     command
 };
 
+struct register_expression;
+struct number_expression;
+struct identifier_expression;
+struct math_expression;
+struct command_expression;
+
+
 struct expression
 {
     expression_type type;
     token value;
     expression(token value, expression_type type = expression_type::unspecified): type(type),value(value){}
+    register_expression* to_register(){return (register_expression*) this;}
+    number_expression* to_number(){return (number_expression*) this;}
+    identifier_expression* to_identifier(){return (identifier_expression*) this;}
+    math_expression* to_math(){return (math_expression*) this;}
+    command_expression* to_command(){return (command_expression*) this;}
 };
 
 struct register_expression : expression

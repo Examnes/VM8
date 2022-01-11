@@ -73,8 +73,12 @@ public:
                         if(register_expression::is_register(cultivator.top()))
                         {
                             mem.type = math_expression_member_type::reg;
+                            mem.int_value = metadata_provider::register_ids[cultivator.top().value];
                         }else
+                        {
                             mem.type = math_expression_member_type::label;
+                            
+                        }
                         mem.str_value = cultivator.top().value;
                     }else if(get_operator(cultivator.top()) != math_operation_type::error)
                     {
@@ -155,12 +159,16 @@ public:
                 {
                     case math_operation_type::add :
                         cultivator.push(math_expression_member(val1 + val2));
+                        break;
                     case math_operation_type::sub :
                         cultivator.push(math_expression_member(val1 - val2));
+                        break;
                     case math_operation_type::div :
                         cultivator.push(math_expression_member(val1 / val2));
+                        break;
                     case math_operation_type::mul :
                         cultivator.push(math_expression_member(val1 * val2));
+                        break;
                     default:
                         break;
                 };
