@@ -86,7 +86,12 @@ public:
                 if (expr.top()->value.type == token_type::left_brace)
                     return 6;
                 if (expr.top()->value.type == token_type::number)
+                {
+                    expression* e = expr.top();
+                    expr.pop();
+                    expr.push(new number_expression(e->value));
                     return 7;
+                }
                 if (expr.top()->value.type == token_type::ident)
                 {
                     expression* e = expr.top();
@@ -175,6 +180,8 @@ public:
                     return 13;
                 if(st.top() == 3)
                     return 16;
+                if(st.top() == 4)
+                    return 15;
                 return 0;
             }
         });

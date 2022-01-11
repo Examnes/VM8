@@ -51,10 +51,12 @@ struct register_expression : expression
 
 struct number_expression : expression
 {
-    int number_value;
+    float number_value;
+
     number_expression(token t): expression(t, expression_type::number)
     {
-        number_value = std::stoi(t.value);
+
+        number_value = std::stof(t.value);
     }
 };
 
@@ -80,7 +82,7 @@ struct mnemonic_expression : expression
 struct math_expression : expression
 {
     std::vector<math_expression_member> members;
-    math_expression(std::vector<math_expression_member> members): expression(token(), expression_type::mnemonic), members(members){}
+    math_expression(std::vector<math_expression_member> members): expression(token(), expression_type::math), members(members){}
 };
 
 enum class command_type

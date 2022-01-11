@@ -45,6 +45,7 @@ struct command16
 	uint8_t a1 : 3;
 	uint8_t a2 : 3;
 	uint8_t a3 : 3;
+	code_t padding[2];
 };
 
 struct command24 
@@ -52,6 +53,7 @@ struct command24
 	code_t cop : 7;
 	uint8_t b : 1;
 	addr_t addr;
+	code_t padding[1];
 };
 
 struct command32 
@@ -65,8 +67,6 @@ struct command32
 
 union command
 {
-	code_t c8;
-	command16 c16;
 	command24 c24;
 	command32 c32;
 	word parts[4];

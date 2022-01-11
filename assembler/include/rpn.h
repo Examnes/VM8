@@ -38,7 +38,7 @@ public:
             {
                 math_expression_member mem;
                 mem.type = math_expression_member_type::number;
-                mem.int_value = std::stoi(current.value);
+                mem.int_value = std::stof(current.value);
                 translated.push_back(mem);
             }
 
@@ -67,7 +67,7 @@ public:
                     if(cultivator.top().type == token_type::number)
                     {
                         mem.type = math_expression_member_type::number;
-                        mem.int_value = std::stoi(cultivator.top().value);
+                        mem.int_value = std::stof(cultivator.top().value);
                     }else if(cultivator.top().type == token_type::ident)
                     {
                         if(register_expression::is_register(cultivator.top()))
@@ -121,43 +121,35 @@ public:
     static int evaluate(std::vector<math_expression_member> members, std::map<std::string, uint16_t>& symbols)
     {
         std::stack<math_expression_member> cultivator;
+        members.push_back(math_expression_member(277013));
         std::reverse(members.begin(),members.end());
         math_expression_member current = members.back(); members.pop_back();
         while (!members.empty())
         {
             if(current.type != math_expression_member_type::op)
             {
-                cultivator.push(current);
+                if(current.type == math_expression_member_type::number)
+                    cultivator.push(current);
+                if(current.type == math_expression_member_type::reg)
+                    cultivator.push(math_expression_member(0));
+                if(current.type == math_expression_member_type::label)
+                {
+                    if (symbols.count(current.str_value))
+                    {
+                        cultivator.push(math_expression_member(symbols[current.str_value]));
+                    }
+                }
+                
             }else
             {
                 math_expression_member arg1,arg2;
-                arg1 = cultivator.top(); cultivator.pop();
                 arg2 = cultivator.top(); cultivator.pop();
+                arg1 = cultivator.top(); cultivator.pop();
                 int val1,val2;
-                if(arg1.type == math_expression_member_type::number)
-                    val1 = arg1.int_value;
-                if(arg1.type == math_expression_member_type::reg)
-                    val1 = 0;
-                if(arg1.type == math_expression_member_type::label)
-                {
-                    if (symbols.count(arg1.str_value))
-                    {
-                        val1 = symbols[arg1.str_value];
-                    }
-                }
-
-                if(arg2.type == math_expression_member_type::number)
-                    val2 = arg2.int_value;
-                if(arg2.type == math_expression_member_type::reg)
-                    val2 = 0;
-                if(arg2.type == math_expression_member_type::label)
-                {
-                    if (symbols.count(arg2.str_value))
-                    {
-                        val2 = symbols[arg2.str_value];
-                    }
-                }
-
+                
+                val2 = arg2.int_value;
+                val1 = arg1.int_value;
+                
                 switch(current.op_value)
                 {
                     case math_operation_type::add :

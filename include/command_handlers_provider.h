@@ -41,8 +41,24 @@ public:
 		m.insert ( std::pair<code_t,command_handler*>(24,new mulws_command_handler(mem,s,2)) );
 		m.insert ( std::pair<code_t,command_handler*>(25,new neg_command_handler(mem,s,2)) );
 		m.insert ( std::pair<code_t,command_handler*>(26,new print_command_handler(mem,s,2)) );
-		m.insert ( std::pair<code_t,command_handler*>(27,new in_command_handler(mem,s,2)) );
-		m.insert ( std::pair<code_t,command_handler*>(28,new out_command_handler(mem,s,2)) );
+		m.insert ( std::pair<code_t,command_handler*>(27,new in_command_handler(mem,s,1)) );
+		m.insert ( std::pair<code_t,command_handler*>(28,new out_command_handler(mem,s,1)) );
+		m.insert ( std::pair<code_t,command_handler*>(29,new jmpre_command_handler(mem,s,2)) );
+		m.insert ( std::pair<code_t,command_handler*>(30,new jmple_command_handler(mem,s,3)) );
+		m.insert ( std::pair<code_t,command_handler*>(31,new jmplre_command_handler(mem,s,4)) );
+		m.insert ( std::pair<code_t,command_handler*>(32,new jmprg_command_handler(mem,s,2)) );
+		m.insert ( std::pair<code_t,command_handler*>(33,new jmplg_command_handler(mem,s,3)) );
+		m.insert ( std::pair<code_t,command_handler*>(34,new jmplrg_command_handler(mem,s,4)) );
+		m.insert ( std::pair<code_t,command_handler*>(35,new jmprl_command_handler(mem,s,2)) );
+		m.insert ( std::pair<code_t,command_handler*>(36,new jmpll_command_handler(mem,s,3)) );
+		m.insert ( std::pair<code_t,command_handler*>(37,new jmplrl_command_handler(mem,s,4)) );
+		m.insert ( std::pair<code_t,command_handler*>(38,new jmprle_command_handler(mem,s,2)) );
+		m.insert ( std::pair<code_t,command_handler*>(39,new jmplle_command_handler(mem,s,3)) );
+		m.insert ( std::pair<code_t,command_handler*>(40,new jmplrle_command_handler(mem,s,4)) );
+		m.insert ( std::pair<code_t,command_handler*>(41,new jmprge_command_handler(mem,s,2)) );
+		m.insert ( std::pair<code_t,command_handler*>(42,new jmplge_command_handler(mem,s,3)) );
+		m.insert ( std::pair<code_t,command_handler*>(43,new jmplrge_command_handler(mem,s,4)) );
+		m.insert ( std::pair<code_t,command_handler*>(44,new fld_command_handler(mem,s,4)) );
 		return m;
 	}
 };

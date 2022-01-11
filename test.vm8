@@ -1,2 +1,9 @@
+jmpr [b - currentaddress]
+data:
+float 12.25
+float 12.25
 b:
-jmpr [b+2]
+fld [data]
+fld [data + 4]
+fadd
+out

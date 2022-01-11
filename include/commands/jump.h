@@ -18,6 +18,91 @@ public:
     }
 };
 
+class jmpre_command_handler : public command_handler
+{
+public:
+    jmpre_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmpre_command_handler(){}
+    void execute(command comm)
+    {
+        if (s.psw.flags.zf)
+        {
+            converter conv;
+            conv.data[0] = static_cast<word>(comm.c16.a3 + comm.c16.a2 * 8 + comm.c16.a1 * 64);
+            s.psw.ip = static_cast<word>(s.psw.ip + conv.relation);
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmprg_command_handler : public command_handler
+{
+public:
+    jmprg_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmprg_command_handler(){}
+    void execute(command comm)
+    {
+        if (not s.psw.flags.nf and not s.psw.flags.zf)
+        {
+            converter conv;
+            conv.data[0] = static_cast<word>(comm.c16.a3 + comm.c16.a2 * 8 + comm.c16.a1 * 64);
+            s.psw.ip = static_cast<word>(s.psw.ip + conv.relation);
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmprl_command_handler : public command_handler
+{
+public:
+    jmprl_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmprl_command_handler(){}
+    void execute(command comm)
+    {
+        if (s.psw.flags.nf and not s.psw.flags.zf)
+        {
+            converter conv;
+            conv.data[0] = static_cast<word>(comm.c16.a3 + comm.c16.a2 * 8 + comm.c16.a1 * 64);
+            s.psw.ip = static_cast<word>(s.psw.ip + conv.relation);
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmprge_command_handler : public command_handler
+{
+public:
+    jmprge_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmprge_command_handler(){}
+    void execute(command comm)
+    {
+        if (not s.psw.flags.nf or s.psw.flags.zf)
+        {
+            converter conv;
+            conv.data[0] = static_cast<word>(comm.c16.a3 + comm.c16.a2 * 8 + comm.c16.a1 * 64);
+            s.psw.ip = static_cast<word>(s.psw.ip + conv.relation);
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmprle_command_handler : public command_handler
+{
+public:
+    jmprle_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmprle_command_handler(){}
+    void execute(command comm)
+    {
+        if (s.psw.flags.nf or s.psw.flags.zf)
+        {
+            converter conv;
+            conv.data[0] = static_cast<word>(comm.c16.a3 + comm.c16.a2 * 8 + comm.c16.a1 * 64);
+            s.psw.ip = static_cast<word>(s.psw.ip + conv.relation);
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
 class jmpl_command_handler : public command_handler
 {
 public:
@@ -33,6 +118,111 @@ public:
             s.psw.ip = comm.c24.addr;
         }
         s.psw.flags.ip_changed = true;
+    }
+};
+
+class jmple_command_handler : public command_handler
+{
+public:
+    jmple_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmple_command_handler(){}
+    void execute(command comm)
+    {
+        if (s.psw.flags.zf)
+        {
+            if(comm.c24.b)
+            {
+                s.psw.ip = m[comm.c24.addr];
+            }else
+            {
+                s.psw.ip = comm.c24.addr;
+            }
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmplg_command_handler : public command_handler
+{
+public:
+    jmplg_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmplg_command_handler(){}
+    void execute(command comm)
+    {
+        if (not s.psw.flags.nf and not s.psw.flags.zf)
+        {
+            if(comm.c24.b)
+            {
+                s.psw.ip = m[comm.c24.addr];
+            }else
+            {
+                s.psw.ip = comm.c24.addr;
+            }
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmpll_command_handler : public command_handler
+{
+public:
+    jmpll_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmpll_command_handler(){}
+    void execute(command comm)
+    {
+        if (s.psw.flags.nf and not s.psw.flags.zf)
+        {
+            if(comm.c24.b)
+            {
+                s.psw.ip = m[comm.c24.addr];
+            }else
+            {
+                s.psw.ip = comm.c24.addr;
+            }
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmplge_command_handler : public command_handler
+{
+public:
+    jmplge_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmplge_command_handler(){}
+    void execute(command comm)
+    {
+        if (not s.psw.flags.nf or s.psw.flags.zf)
+        {
+            if(comm.c24.b)
+            {
+                s.psw.ip = m[comm.c24.addr];
+            }else
+            {
+                s.psw.ip = comm.c24.addr;
+            }
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmplle_command_handler : public command_handler
+{
+public:
+    jmplle_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmplle_command_handler(){}
+    void execute(command comm)
+    {
+        if (s.psw.flags.nf or s.psw.flags.zf)
+        {
+            if(comm.c24.b)
+            {
+                s.psw.ip = m[comm.c24.addr];
+            }else
+            {
+                s.psw.ip = comm.c24.addr;
+            }
+            s.psw.flags.ip_changed = true;
+        }
     }
 };
 
@@ -63,6 +253,171 @@ public:
             }
         }
         s.psw.flags.ip_changed = true;
+    }
+};
+
+class jmplre_command_handler : public command_handler
+{
+public:
+    jmplre_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmplre_command_handler(){}
+    void execute(command comm)
+    {
+        if (s.psw.flags.zf)
+        {
+            if(comm.c32.a1 & 0b100)
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = m[static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2])];
+                }else
+                {
+                    s.psw.ip = m[comm.c32.addr];
+                }
+            }else
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2]);
+                }else
+                {
+                    s.psw.ip = comm.c32.addr;
+                }
+            }
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmplrg_command_handler : public command_handler
+{
+public:
+    jmplrg_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmplrg_command_handler(){}
+    void execute(command comm)
+    {
+        if (not s.psw.flags.nf and not s.psw.flags.zf)
+        {
+            if(comm.c32.a1 & 0b100)
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = m[static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2])];
+                }else
+                {
+                    s.psw.ip = m[comm.c32.addr];
+                }
+            }else
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2]);
+                }else
+                {
+                    s.psw.ip = comm.c32.addr;
+                }
+            }
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmplrl_command_handler : public command_handler
+{
+public:
+    jmplrl_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmplrl_command_handler(){}
+    void execute(command comm)
+    {
+        if (s.psw.flags.nf and not s.psw.flags.zf)
+        {
+            if(comm.c32.a1 & 0b100)
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = m[static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2])];
+                }else
+                {
+                    s.psw.ip = m[comm.c32.addr];
+                }
+            }else
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2]);
+                }else
+                {
+                    s.psw.ip = comm.c32.addr;
+                }
+            }
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmplrge_command_handler : public command_handler
+{
+public:
+    jmplrge_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmplrge_command_handler(){}
+    void execute(command comm)
+    {
+        if (not s.psw.flags.nf or s.psw.flags.zf)
+        {
+            if(comm.c32.a1 & 0b100)
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = m[static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2])];
+                }else
+                {
+                    s.psw.ip = m[comm.c32.addr];
+                }
+            }else
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2]);
+                }else
+                {
+                    s.psw.ip = comm.c32.addr;
+                }
+            }
+            s.psw.flags.ip_changed = true;
+        }
+    }
+};
+
+class jmplrle_command_handler : public command_handler
+{
+public:
+    jmplrle_command_handler(memory& m, state& s,int sz):command_handler(m,s,sz){}
+    ~jmplrle_command_handler(){}
+    void execute(command comm)
+    {
+        if (s.psw.flags.nf or s.psw.flags.zf)
+        {
+            if(comm.c32.a1 & 0b100)
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = m[static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2])];
+                }else
+                {
+                    s.psw.ip = m[comm.c32.addr];
+                }
+            }else
+            {
+                if(comm.c32.a1 & 0b010)
+                {
+                    s.psw.ip = static_cast<word>(comm.c32.addr + s.reg[comm.c32.a2]);
+                }else
+                {
+                    s.psw.ip = comm.c32.addr;
+                }
+            }
+            s.psw.flags.ip_changed = true;
+        }
     }
 };
 

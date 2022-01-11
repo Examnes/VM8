@@ -30,9 +30,9 @@ struct reg_reg : validator
     {
         std::vector<uint8_t> res;
         command c;
-        c.c16.cop = cmd.mnemonic->opcode;
-        c.c16.a1 = cmd.arg1->to_register()->register_id;
-        c.c16.a2 = cmd.arg2->to_register()->register_id;
+        c.c32.cop = cmd.mnemonic->opcode;
+        c.c32.a1 = cmd.arg1->to_register()->register_id;
+        c.c32.a2 = cmd.arg2->to_register()->register_id;
         res.push_back(c.parts[0]);
         res.push_back(c.parts[1]);
         return res;
@@ -57,10 +57,10 @@ struct reg_reg_reg : validator
     {
         std::vector<uint8_t> res;
         command c;
-        c.c16.cop = cmd.mnemonic->opcode;
-        c.c16.a1 = cmd.arg1->to_register()->register_id;
-        c.c16.a2 = cmd.arg2->to_register()->register_id;
-        c.c16.a3 = cmd.arg3->to_register()->register_id;
+        c.c32.cop = cmd.mnemonic->opcode;
+        c.c32.a1 = cmd.arg1->to_register()->register_id;
+        c.c32.a2 = cmd.arg2->to_register()->register_id;
+        c.c32.a3 = cmd.arg3->to_register()->register_id;
         res.push_back(c.parts[0]);
         res.push_back(c.parts[1]);
         return res;
@@ -79,7 +79,7 @@ struct no_op : validator
     {
         std::vector<uint8_t> res;
         command c;
-        c.c8 = cmd.mnemonic->opcode;
+        c.c32.cop = cmd.mnemonic->opcode;
         res.push_back(c.parts[0]);
         return res;
     }
@@ -153,7 +153,8 @@ struct jmpr_v : validator
             if(std::all_of(e->members.begin(),e->members.end(),
                 [](math_expression_member m){ return
                     m.type == math_expression_member_type::label or 
-                    m.type == math_expression_member_type::number;}))
+                    m.type == math_expression_member_type::number or
+                    m.type == math_expression_member_type::op;}))
             {
                 cmd.type = command_type::command16;
                 return true;
@@ -166,7 +167,7 @@ struct jmpr_v : validator
     {
         std::vector<uint8_t> res;
         command c;
-        c.c16.cop = cmd.mnemonic->opcode;
+        c.c32.cop = cmd.mnemonic->opcode;
         uint8_t rel = 0;
         if(cmd.arg1->type == expression_type::number)
         {
@@ -175,13 +176,14 @@ struct jmpr_v : validator
         {
             rel = rpn::evaluate(cmd.arg1->to_math()->members, symbols);
         }
-        c.c16.a3 = rel & (0b111);
-        c.c16.a2 = (rel & (0b111 << 3)) >> 3;
-        c.c16.a1 = (rel & (0b111 << 6)) >> 6;
-        
+        c.c32.a3 = rel & (0b111);
+        rel = rel >> 3;
+        c.c32.a2 = rel & (0b111);
+        rel = rel >> 3;
+        c.c32.a1 = rel & (0b111);
+
         res.push_back(c.parts[0]);
         res.push_back(c.parts[1]);
-        
         return res;
     }
 };
@@ -211,11 +213,11 @@ struct mathw_v : validator
     {
         std::vector<uint8_t> res;
         command c;
-        c.c16.cop = cmd.mnemonic->opcode;
+        c.c32.cop = cmd.mnemonic->opcode;
 
-        c.c16.a1 = cmd.arg1->to_math()->members.back().int_value;
-        c.c16.a2 = cmd.arg2->to_math()->members[0].int_value;
-        c.c16.a3 = cmd.arg2->to_math()->members[1].int_value;
+        c.c32.a1 = cmd.arg1->to_math()->members.back().int_value;
+        c.c32.a2 = cmd.arg2->to_math()->members[0].int_value;
+        c.c32.a3 = cmd.arg2->to_math()->members[1].int_value;
         
         res.push_back(c.parts[0]);
         res.push_back(c.parts[1]);
@@ -394,5 +396,68 @@ struct mov_v : validator
     }
 };
 
+
+struct float_data_v : validator
+{
+    bool set_size(command_expression& cmd)
+    {
+        cmd.type = command_type::command32;
+        if (cmd.arg1->type == expression_type::number)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    std::vector<uint8_t> evaluate(command_expression& cmd, std::map<std::string, uint16_t>& symbols)
+    {
+        std::vector<uint8_t> res;
+        converter cov;
+        cov.floating = cmd.arg1->to_number()->number_value;
+        res.push_back(cov.data[0]);
+        res.push_back(cov.data[1]);
+        res.push_back(cov.data[2]);
+        res.push_back(cov.data[3]);
+        return res;
+    }
+};
+
+struct fld_v : validator
+{
+    bool set_size(command_expression& cmd)
+    {
+        cmd.type = command_type::command32;
+        if (cmd.arg1->type == expression_type::math)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    std::vector<uint8_t> evaluate(command_expression& cmd, std::map<std::string, uint16_t>& symbols)
+    {
+        std::vector<uint8_t> res;
+        command c;
+        c.c32.cop = cmd.mnemonic->opcode;
+        uint16_t rel = 0;
+        rel = rpn::evaluate(cmd.arg1->to_math()->members, symbols);
+        c.c32.addr = rel;
+        auto fres = std::find_if(cmd.arg1->to_math()->members.begin(),
+        cmd.arg1->to_math()->members.end(),
+        [](math_expression_member m){return m.type == math_expression_member_type::reg;});
+        if (fres != cmd.arg1->to_math()->members.end())
+        {
+            c.c32.a2 = fres->int_value;
+            c.c32.a1 = 0b001;
+        }
+        address_created = true;
+        res.push_back(c.parts[0]);
+        res.push_back(c.parts[1]);
+        res.push_back(c.parts[2]);
+        res.push_back(c.parts[3]);
+        
+        return res;
+    }
+};
 
 #endif // VALIDATOR_H

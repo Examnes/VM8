@@ -23,7 +23,7 @@ enum class math_operation_type
 struct math_expression_member
 {
     math_expression_member_type type;
-    int int_value;
+    float int_value;
     std::string str_value;
     math_operation_type op_value;
     math_expression_member(int a)
