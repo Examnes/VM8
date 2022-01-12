@@ -35,8 +35,8 @@ std::map<std::string,int> metadata_provider::opcode_ids = {
     {"mov",1},
     {"in",27},
     {"out",28},
-    {"jmple",29},
-    {"jmpre",30},
+    {"jmple",30},
+    {"jmpre",29},
     {"jmplre",31},
     {"jmplg",32},
     {"jmprg",33},
@@ -51,5 +51,6 @@ std::map<std::string,int> metadata_provider::opcode_ids = {
     {"jmprge",42},
     {"jmplrge",43},
     {"fld",44},
+    {"fdup",45},
     {"float",0}
 };

@@ -41,31 +41,32 @@ struct state
 
 struct command16 
 {
- 	code_t cop : 7;
+ 	uint8_t cop : 7;
 	uint8_t a1 : 3;
 	uint8_t a2 : 3;
 	uint8_t a3 : 3;
-};
+}__attribute__((packed));
 
 struct command24 
 {
-	code_t cop : 7;
+	uint8_t cop : 7;
 	uint8_t b : 1;
-	word addr;
-};
+	addr_t addr : 16;
+}__attribute__((packed));
+
 
 struct command32 
 {
-	code_t cop : 7;
+	uint8_t cop : 7;
 	uint8_t a1 : 3;
 	uint8_t a2 : 3;
 	uint8_t a3 : 3;
-	word addr;
-};
+	addr_t addr : 16;
+}__attribute__((packed));
 
 union command
 {
-	code_t c8;
+	uint8_t c8;
 	command16 c16;
 	command24 c24;
 	command32 c32;

@@ -12,7 +12,7 @@ public:
     void execute(command comm)
     {
         converter conv;
-        conv.data[0] = static_cast<word>(comm.c16.a3 + comm.c16.a2 * 8 + comm.c16.a1 * 64);
+        conv.data[0] = (comm.c16.a3 + comm.c16.a2 * 8 + comm.c16.a1 * 64);
         s.psw.ip = static_cast<word>(s.psw.ip + conv.relation);
         s.psw.flags.ip_changed = true;
     }

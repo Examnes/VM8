@@ -125,6 +125,7 @@ struct jmpl_v : validator
             arg = cmd.arg1->to_math()->members.back().str_value;
             indirect = true;
         }
+        
         if(symbols.count(arg))
         {
             c.c24.addr = symbols[arg];
@@ -181,7 +182,7 @@ struct jmpr_v : validator
         c.c32.a2 = rel & (0b111);
         rel = rel >> 3;
         c.c32.a1 = rel & (0b111);
-
+        int a = sizeof(command32);
         res.push_back(c.parts[0]);
         res.push_back(c.parts[1]);
         return res;
@@ -310,29 +311,17 @@ struct mov_v : validator
     {
         if (cmd.arg1->type == expression_type::reg)
         {
-            if (cmd.arg3)
+            if (cmd.arg2->type == expression_type::reg)
             {
-                if ((cmd.arg2->type == expression_type::reg and cmd.arg3->type == expression_type::identifier) or
-                (cmd.arg3->type == expression_type::reg and cmd.arg2->type == expression_type::identifier))
-                {
-                    cmd.type = command_type::command32;
-                    return true;
-                }
-                return false;
-            }else
-            {
-                if (cmd.arg2->type == expression_type::reg)
-                {
-                    cmd.type = command_type::command16;
-                    return true;
-                }
-                if (cmd.arg2->type == expression_type::identifier)
-                {
-                    cmd.type = command_type::command32;
-                    return true;
-                }
-                return false;
+                cmd.type = command_type::command16;
+                return true;
             }
+            if (cmd.arg2->type == expression_type::math)
+            {
+                cmd.type = command_type::command32;
+                return true;
+            }
+            return false;
         }
         return false;
     }
@@ -351,30 +340,25 @@ struct mov_v : validator
             register_exist = true;
         }else
         {
-            if (symbols.count(cmd.arg2->to_identifier()->value.value))
+            auto fres = std::find_if(cmd.arg2->to_math()->members.begin(),
+            cmd.arg2->to_math()->members.end(),
+            [](math_expression_member m){return m.type == math_expression_member_type::reg;});
+            if (fres != cmd.arg2->to_math()->members.end())
             {
-                c.c32.addr = symbols[cmd.arg2->to_identifier()->value.value];
+                register_exist = true;
+            }
+            
+            uint16_t rel = 0;
+            rel = rpn::evaluate(cmd.arg2->to_math()->members, symbols);
+            if (rel)
+            {
+                c.c32.addr = rel;
                 address_exist = true;
                 address_created = true;
             }
+            
         }
-
-        if (cmd.arg3)
-        {
-            if (cmd.arg3->type == expression_type::reg)
-            {
-                c.c32.a3 = cmd.arg3->to_register()->register_id;
-                register_exist = true;
-            }else
-            {
-                if (symbols.count(cmd.arg3->to_identifier()->value.value))
-                {
-                    c.c32.addr = symbols[cmd.arg3->to_identifier()->value.value];
-                    address_exist = true;
-                    address_created = true;
-                }
-            }
-        }
+        
         
         res.push_back(c.parts[0]);
         res.push_back(c.parts[1]);

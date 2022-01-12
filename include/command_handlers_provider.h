@@ -59,6 +59,7 @@ public:
 		m.insert ( std::pair<code_t,command_handler*>(42,new jmplge_command_handler(mem,s,3)) );
 		m.insert ( std::pair<code_t,command_handler*>(43,new jmplrge_command_handler(mem,s,4)) );
 		m.insert ( std::pair<code_t,command_handler*>(44,new fld_command_handler(mem,s,4)) );
+		m.insert ( std::pair<code_t,command_handler*>(45,new fdup_command_handler(mem,s,1)) );
 		return m;
 	}
 };

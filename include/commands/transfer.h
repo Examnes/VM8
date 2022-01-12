@@ -31,9 +31,9 @@ public:
 private:
     enum mov_type
     {
-        direct,
-        inderect,
-        relative
+        direct = 0,
+        inderect = 2,
+        relative = 1
     };
 };
 

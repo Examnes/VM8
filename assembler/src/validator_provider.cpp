@@ -43,5 +43,6 @@ std::map<std::string,validator*> validators_provider::validators = {
     {"jmprle",new jmpr_v()},
     {"jmplrle",new jmplr_v()},
     {"float",new float_data_v()},
-    {"fld",new fld_v()}
+    {"fld",new fld_v()},
+    {"fdup",new no_op()}
 };

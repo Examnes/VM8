@@ -29,10 +29,10 @@ public:
     void execute(command comm)
     {
         converter conv;
-        conv.data[0] = m[s.sp++];
-        conv.data[1] = m[s.sp++];
-        conv.data[2] = m[s.sp++];
-        conv.data[3] = m[s.sp++];
+        conv.data[0] = m[++s.sp];
+        conv.data[1] = m[++s.sp];
+        conv.data[2] = m[++s.sp];
+        conv.data[3] = m[++s.sp];
         std::cout << conv.floating;
     }
 };

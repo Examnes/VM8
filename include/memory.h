@@ -3,15 +3,17 @@
 
 #include "types.h"
 #include <stdexcept>
+#include <vector>
 
 #define VM_MEMORY_SIZE 8 * 8 * 8 * 8 * sizeof(word)
 
 class memory
 {
 public:
+	int start;
 	memory()
 	{
-		data = new word[VM_MEMORY_SIZE];
+		data = std::vector<word>(VM_MEMORY_SIZE,0);
 	}
 
 	word &operator[](word i)
@@ -22,15 +24,9 @@ public:
 		}
 		return data[i];
 	}
-
-	~memory()
-	{
-		delete[] data;
-	}
-
 private:
 	friend void load_memory_from_file(std::string s, memory &m, addr_t offset);
-	word *data;
+	std::vector<word> data;
 };
 
 #endif

@@ -52,9 +52,9 @@ struct command24
 {
 	code_t cop : 7;
 	uint8_t b : 1;
-	addr_t addr;
-	code_t padding[1];
-};
+	addr_t addr : 16;
+	code_t padding : 8;
+}__attribute__((packed));
 
 struct command32 
 {
@@ -62,8 +62,8 @@ struct command32
 	uint8_t a1 : 3;
 	uint8_t a2 : 3;
 	uint8_t a3 : 3;
-	addr_t addr;
-};
+	addr_t addr : 16;
+}__attribute__((packed));
 
 union command
 {

@@ -1,9 +1,12 @@
-jmpr [b - currentaddress]
-data:
-float 12.25
-float 12.25
-b:
-fld [data]
-fld [data + 4]
-fadd
-out
+mov eax [1]
+mov ebx [5]
+mov ecx [1]
+mov edx [1]
+loop:
+adds eax ecx eax
+muls edx eax edx
+subs eax ebx esi
+jmple exit
+jmpr [loop - currentaddress]
+exit:
+fdup

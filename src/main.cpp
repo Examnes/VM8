@@ -14,7 +14,7 @@ int main(int argc,char** argv)
     memory m = memory();
     try
     {
-        load_memory_from_file(argv[0],m,std::stoi(argv[1]));
+        load_memory_from_file(argv[1],m,std::stoi(argv[2]));
     }
     catch(const std::exception& e)
     {
